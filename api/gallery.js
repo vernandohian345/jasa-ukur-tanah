@@ -1,76 +1,60 @@
 const pool = require('./db');
 
 module.exports = async (req, res) => {
-  
-  // 1. AMBIL DATA (GET)
-  if (req.method === 'GET') {
-    try {
-      const [rows] = await pool.query('SELECT * FROM gallery ORDER BY created_at DESC');
-      res.status(200).json(rows);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Gagal mengambil data gallery' });
+  try {
+    // GET
+    if (req.method === 'GET') {
+      const [rows] = await pool.query(
+        'SELECT * FROM gallery ORDER BY created_at DESC'
+      );
+      return res.status(200).json(rows);
     }
-  } 
-  
-  // 2. TAMBAH DATA BARU (POST)
-  else if (req.method === 'POST') {
-    try {
+
+    // POST
+    if (req.method === 'POST') {
       const { judul, deskripsi, gambar } = req.body;
-      
+
       if (!judul || !gambar) {
-        return res.status(400).json({ error: 'Judul dan Gambar wajib diisi' });
+        return res.status(400).json({ error: 'Judul & gambar wajib diisi' });
       }
 
-      // Simpan ke MySQL (Gambar disimpan sebagai teks Base64)
       await pool.query(
-        'INSERT INTO gallery (judul, deskripsi, gambar) VALUES (?, ?, ?)', 
+        'INSERT INTO gallery (judul, deskripsi, gambar) VALUES (?, ?, ?)',
         [judul, deskripsi, gambar]
       );
-      
-      res.status(201).json({ message: 'Berhasil menambah gallery' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Gagal menyimpan data ke database' });
+
+      return res.status(201).json({ message: 'Gallery ditambahkan' });
     }
-  }
 
-  // 3. UPDATE DATA (PUT)
-  else if (req.method === 'PUT') {
-    try {
+    // PUT
+    if (req.method === 'PUT') {
       const { id, judul, deskripsi, gambar } = req.body;
-      
-      if(!id) return res.status(400).json({ error: 'ID wajib ada' });
+      if (!id) return res.status(400).json({ error: 'ID wajib ada' });
 
-      // Query dinamis: Update gambar hanya jika ada input baru
-      let query, params;
-      if (gambar) {
-        query = 'UPDATE gallery SET judul = ?, deskripsi = ?, gambar = ? WHERE id = ?';
-        params = [judul, deskripsi, gambar, id];
-      } else {
-        query = 'UPDATE gallery SET judul = ?, deskripsi = ? WHERE id = ?';
-        params = [judul, deskripsi, id];
-      }
+      const query = gambar
+        ? 'UPDATE gallery SET judul=?, deskripsi=?, gambar=? WHERE id=?'
+        : 'UPDATE gallery SET judul=?, deskripsi=? WHERE id=?';
+
+      const params = gambar
+        ? [judul, deskripsi, gambar, id]
+        : [judul, deskripsi, id];
 
       await pool.query(query, params);
-      res.status(200).json({ message: 'Berhasil update gallery' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Gagal update data' });
+      return res.status(200).json({ message: 'Gallery diupdate' });
     }
-  }
 
-  // 4. HAPUS DATA (DELETE)
-  else if (req.method === 'DELETE') {
-    try {
-      const { id } = req.query; // Ambil id dari URL (?id=1)
-      if(!id) return res.status(400).json({ error: 'ID wajib ada' });
+    // DELETE
+    if (req.method === 'DELETE') {
+      const { id } = req.query;
+      if (!id) return res.status(400).json({ error: 'ID wajib ada' });
 
       await pool.query('DELETE FROM gallery WHERE id = ?', [id]);
-      res.status(200).json({ message: 'Berhasil menghapus gallery' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Gagal menghapus data' });
+      return res.status(200).json({ message: 'Gallery dihapus' });
     }
+
+    return res.status(405).json({ error: 'Method not allowed' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'Server error' });
   }
 };
