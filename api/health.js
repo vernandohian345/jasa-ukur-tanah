@@ -1,10 +1,10 @@
-const pool = require('./db');
+import pool from './db';
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   try {
     await pool.query('SELECT 1');
-    res.json({ status: 'OK', db: 'connected' });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
+    res.status(200).json({ status: 'DB CONNECTED' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-};
+}
