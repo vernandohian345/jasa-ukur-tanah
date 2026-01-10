@@ -1,7 +1,9 @@
-const pool = require('./db');
-const bcrypt = require('bcrypt');
+import getPool from './db.js';
+import bcrypt from 'bcrypt';
 
-module.exports = async (req, res) => {
+const pool = getPool();
+
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -19,7 +21,6 @@ module.exports = async (req, res) => {
     }
 
     const admin = rows[0];
-
     const isMatch = await bcrypt.compare(password, admin.password);
 
     if (!isMatch) {
@@ -35,4 +36,4 @@ module.exports = async (req, res) => {
     console.error('LOGIN ERROR:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
-};
+}
