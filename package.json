@@ -1,5 +1,8 @@
 {
+  "type": "module",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.2.3",
     "mysql2": "^3.16.0"
   }
 }

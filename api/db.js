@@ -1,17 +1,15 @@
-const mysql = require('mysql2/promise');
+import mysql from 'mysql2/promise';
 
-const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  port: Number(process.env.DB_PORT),
-  ssl: {
-    rejectUnauthorized: false,
-  },
-  connectTimeout: 20000,
-  waitForConnections: true,
-  connectionLimit: 3,
-});
+let pool;
 
-module.exports = pool;
+export default function getPool() {
+  if (!pool) {
+    pool = mysql.createPool({
+      uri: process.env.DATABASE_URL,
+      waitForConnections: true,
+      connectionLimit: 5,
+      enableKeepAlive: true
+    });
+  }
+  return pool;
+}

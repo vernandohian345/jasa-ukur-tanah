@@ -1,19 +1,58 @@
-// --- KONFIGURASI ---
+// --- KONFIGURASI (TIDAK DIPAKAI, BISA DIABAIKAN) ---
 const USER = 'admin';
 const PASS = 'admin123';
 
-// --- 1. CEK SESSION LOGIN ---
+// --- 0. HANDLE LOGIN (WAJIB ADA UNTUK login.html) ---
+async function handleLogin(event) {
+    event.preventDefault();
+
+    const usernameEl = document.getElementById('username');
+    const passwordEl = document.getElementById('password');
+
+    // Jika elemen tidak ada, berarti bukan di halaman login
+    if (!usernameEl || !passwordEl) return;
+
+    const username = usernameEl.value;
+    const password = passwordEl.value;
+
+    try {
+        const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        if (res.ok) {
+            localStorage.setItem('admin_session', 'true');
+            window.location.href = 'admin.html';
+        } else {
+            const data = await res.json();
+            alert(data.error || 'Login gagal');
+        }
+    } catch (err) {
+        alert('Gagal terhubung ke server');
+    }
+}
+
+// --- 1. CEK SESSION LOGIN (HANYA UNTUK admin.html) ---
 document.addEventListener('DOMContentLoaded', () => {
-    const isLogin = localStorage.getItem('admin_session');
-    
-    // Jika belum login, tendang ke login.html
-    if (isLogin !== 'true') {
-        window.location.href = 'login.html';
-        return; 
+
+    // Jika ini halaman login, JANGAN redirect
+    if (document.getElementById('username')) {
+        return;
     }
 
-    // Jika sudah login, muat data dari Database
-    loadTable();
+    const isLogin = localStorage.getItem('admin_session');
+
+    if (isLogin !== 'true') {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Jika sudah login dan halaman admin
+    if (typeof loadTable === 'function') {
+        loadTable();
+    }
 });
 
 function logout() {
@@ -22,29 +61,32 @@ function logout() {
 }
 
 // --- 2. EVENT LISTENER (PREVIEW GAMBAR) ---
-document.getElementById('inputFile').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if(file){
-        const reader = new FileReader();
-        reader.onload = function(evt){
-            document.getElementById('imgPreview').src = evt.target.result;
-            document.getElementById('previewBox').style.display = 'block';
-        };
-        reader.readAsDataURL(file); // Ubah ke Base64
-    }
-});
+const fileInputEl = document.getElementById('inputFile');
+if (fileInputEl) {
+    fileInputEl.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (evt) {
+                document.getElementById('imgPreview').src = evt.target.result;
+                document.getElementById('previewBox').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
 
 // --- 3. AMBIL DATA DARI DATABASE (API) ---
 async function loadTable() {
     try {
-        // Fetch ke API gallery
         const res = await fetch('/api/gallery');
         const data = await res.json();
-        
+
         const tbody = document.getElementById('gallery-table-body');
+        if (!tbody) return;
+
         tbody.innerHTML = '';
 
-        // Mapping: Kolom DB 'judul' dan 'deskripsi' ke Tabel
         data.forEach(item => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -52,19 +94,23 @@ async function loadTable() {
                 <td class="fw-bold">${item.judul}</td>
                 <td class="text-muted text-truncate" style="max-width: 200px;">${item.deskripsi}</td>
                 <td class="text-end pe-4">
-                    <button class="btn btn-sm btn-warning me-1" onclick="editData(${item.id})"><i class="bi bi-pencil"></i> Edit</button>
-                    <button class="btn btn-sm btn-danger" onclick="deleteData(${item.id})"><i class="bi bi-trash"></i></button>
+                    <button class="btn btn-sm btn-warning me-1" onclick="editData(${item.id})">
+                        <i class="bi bi-pencil"></i> Edit
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteData(${item.id})">
+                        <i class="bi bi-trash"></i>
+                    </button>
                 </td>
             `;
             tbody.appendChild(tr);
         });
     } catch (error) {
         console.error(error);
-        alert('Gagal memuat data. Pastikan Backend (vercel dev) sudah jalan.');
+        alert('Gagal memuat data.');
     }
 }
 
-// --- 4. SIMPAN / UPDATE DATA (Kirim ke Database) ---
+// --- 4. SIMPAN / UPDATE DATA ---
 async function saveData() {
     const id = document.getElementById('editId').value;
     const judul = document.getElementById('inputJudul').value;
@@ -72,86 +118,72 @@ async function saveData() {
     const fileInput = document.getElementById('inputFile');
     const imgPreview = document.getElementById('imgPreview').src;
 
-    if(!judul || !deskripsi) {
+    if (!judul || !deskripsi) {
         alert('Harap lengkapi judul dan deskripsi!');
         return;
     }
 
-    // Tentukan gambar final (Base64)
     let finalImage = "";
 
     if (id) {
-        // --- MODE EDIT ---
-        // Ambil data lama dulu
         const oldData = await (await fetch('/api/gallery')).json();
         const oldItem = oldData.find(x => x.id == id);
-        
-        // Jika upload file baru, pakai baru. Jika tidak, pakai lama.
-        if (fileInput.files && fileInput.files[0]) {
-            finalImage = imgPreview; // Base64 Baru
-        } else {
-            finalImage = oldItem.gambar; // Base64 Lama
-        }
+
+        finalImage = (fileInput.files && fileInput.files[0])
+            ? imgPreview
+            : oldItem.gambar;
     } else {
-        // --- MODE TAMBAH BARU ---
-        if(!fileInput.files || !fileInput.files[0]) {
+        if (!fileInput.files || !fileInput.files[0]) {
             alert('Mohon upload foto!');
             return;
         }
-        finalImage = imgPreview; // Base64 Baru
+        finalImage = imgPreview;
     }
 
-    // Kirim ke API
     const method = id ? 'PUT' : 'POST';
-    const payload = {
-        judul, 
-        deskripsi, 
-        gambar: finalImage
-    };
-    if(id) payload.id = id;
+    const payload = { judul, deskripsi, gambar: finalImage };
+    if (id) payload.id = id;
 
     try {
         const res = await fetch('/api/gallery', {
-            method: method,
+            method,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-        
-        if(res.ok) {
-            const modalEl = document.getElementById('galleryModal');
-            bootstrap.Modal.getInstance(modalEl).hide();
-            loadTable(); // Refresh tabel
+
+        if (res.ok) {
+            bootstrap.Modal.getInstance(
+                document.getElementById('galleryModal')
+            ).hide();
+            loadTable();
         } else {
             alert('Gagal menyimpan data');
         }
-    } catch (error) {
+    } catch {
         alert('Terjadi kesalahan koneksi');
     }
 }
 
-// --- 5. BUKA MODAL (AMBIL DATA SPESIFIK JIKA EDIT) ---
+// --- 5. MODAL ---
 async function openModal(isEdit = false, id = null) {
     document.getElementById('galleryForm').reset();
     document.getElementById('previewBox').style.display = 'none';
-    
+
     if (isEdit) {
-        // Ambil detail data dari database untuk diisi di form
         const data = await (await fetch('/api/gallery')).json();
         const item = data.find(x => x.id === id);
-        
+
         document.getElementById('modalTitle').innerText = 'Edit Gallery';
         document.getElementById('editId').value = item.id;
         document.getElementById('inputJudul').value = item.judul;
         document.getElementById('inputDeskripsi').value = item.deskripsi;
-        
-        // Tampilkan gambar lama
         document.getElementById('imgPreview').src = item.gambar;
         document.getElementById('previewBox').style.display = 'block';
     } else {
         document.getElementById('modalTitle').innerText = 'Tambah Gallery';
         document.getElementById('editId').value = '';
     }
-    
+
     new bootstrap.Modal(document.getElementById('galleryModal')).show();
 }
 
@@ -161,12 +193,12 @@ function editData(id) {
 
 // --- 6. HAPUS DATA ---
 async function deleteData(id) {
-    if(!confirm('Yakin ingin menghapus foto ini?')) return;
-    
+    if (!confirm('Yakin ingin menghapus foto ini?')) return;
+
     try {
         await fetch(`/api/gallery?id=${id}`, { method: 'DELETE' });
-        loadTable(); // Refresh tabel
-    } catch (error) {
+        loadTable();
+    } catch {
         alert('Gagal menghapus data');
     }
 }
