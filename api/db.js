@@ -1,7 +1,9 @@
 import mysql from 'mysql2/promise';
 
-export const db = mysql.createPool({
+const pool = mysql.createPool({
   uri: process.env.DATABASE_URL,
   waitForConnections: true,
   connectionLimit: 5
 });
+
+export default pool;
