@@ -1,16 +1,15 @@
-const mysql = require('mysql2/promise');
+import mysql from 'mysql2/promise';
 
 let pool;
 
-function getPool() {
+export default function getPool() {
   if (!pool) {
     pool = mysql.createPool({
       uri: process.env.DATABASE_URL,
       waitForConnections: true,
-      connectionLimit: 5
+      connectionLimit: 5,
+      enableKeepAlive: true
     });
   }
   return pool;
 }
-
-module.exports = getPool();
