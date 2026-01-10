@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoSurvey - Jasa Ukur Tanah</title>
+    <title>Jasa Pengukuran Tanah Surabaya & sekitarnya</title>
+    
+    <meta name="description" content="Jasa ukur tanah profesional di Surabaya dan sekitarnya. Akurat, cepat, harga terjangkau. Melayani pengukuran tanah untuk sertifikat, jual beli, dan pembangunan.">
+    <meta name="keywords" content="jasa ukur tanah, jasa ukur tanah surabaya, pengukuran tanah, survey tanah, jasa ukur tanah murah">
+    <meta name="author" content="Jasa Ukur Tanah Surabaya">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,81 +22,92 @@
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="index.html"><i class="bi bi-geo-alt-fill"></i> Jasa Ukur Tanah Murah</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
-                    <li class="nav-item ms-lg-3">
-                        <a href="login.html" class="btn btn-success btn-sm px-3 rounded-pill">Admin Login</a>
-                    </li>
-                </ul>
-            </div>
+    <nav class="navbar">
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#layanan">Layanan</a></li>
+                <li><a href="#gallery">Galeri</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <a href="login.html" class="demo-btn">
+                Login Admin
+                <span class="arrow">→</span>
+            </a>
+            <button class="mobile-menu-btn">☰</button>
         </div>
     </nav>
+
 
     <!-- Hero Section -->
     <section id="home" class="hero-section">
         <div class="container text-center">
             <h1 class="display-3 fw-bold mb-4 animate-up">Jasa Ukur Tanah<br>Profesional & Terpercaya</h1>
-            <p class="lead mb-5 animate-up">Solusi akurat pengukuran tanah, pemetaan batas, dan legalitas sertifikat.</p>
-            <a href="#kontak" class="btn btn-light btn-lg rounded-pill px-5 fw-bold text-success animate-up">Hubungi Kami</a>
+            <p class="lead mb-5 animate-up">Kami adalah penyedia jasa ukur tanah profesional yang melayani wilayah Surabaya dan sekitarnya. 
+                Kami berpengalaman dalam pengukuran tanah untuk kebutuhan sertifikasi, jual beli, dan pembangunan.
+                Dengan peralatan yang akurat dan tenaga berpengalaman, kami memastikan hasil pengukuran jelas,
+                tepat, dan dapat dipertanggungjawabkan.</p>
+            <a href="#kontak" class="btn-hero">Hubungi Kami</a>
         </div>
     </section>
 
     <!-- Layanan -->
     <section id="layanan" class="py-5">
         <div class="container">
-            <div class="text-center mb-5">
-                <h6 class="text-uppercase text-success fw-bold">Apa yang kami kerjakan</h6>
+            <div class="text-center  mb-5">
+                <h6 class="text-uppercase text-success fw-bold">
                 <h2 class="fw-bold">Layanan Kami</h2>
             </div>
             <div class="row g-4">
-                <div class="col-md-3">
-                    <div class="card service-card h-100 border-0 shadow-sm">
+                <div class="col-md-4">
+                    <div class="card service-card h-100 border-100 shadow-sm">
                         <div class="card-body text-center p-4">
-                            <i class="bi bi-rulers fs-1 text-success mb-3"></i>
-                            <h5 class="fw-bold">Ukur Luas</h5>
-                            <p class="text-muted small">Pengukuran presisi luas tanah.</p>
+                            <div class="service-icon">📏</div>
+                            <h5 class="fw-bold">Pengukuran Luasan Tanah</h5>
+                            <p class="text-muted big">Layanan pengukuran presisi untuk mengetahui luas tanah Anda secara akurat. 
+                                Ideal untuk perencanaan perumahan, area konstruksi, lahan pertanian, sawah, 
+                                maupun lahan kosong yang akan dikembangkan.</p>
+                                <div style="margin-top: 1rem; padding: 1rem; background: #f0fff5; border-radius: 8px; border-left: 4px solid #28a745;">
+                                     <p style="font-weight: bold; color: #1e3c72; margin-bottom: 0.5rem;">💰 Harga: Rp 750.000/1000 m²</p>
+                                    <p style="font-size: 0.9rem; color: #666;">*Minimal biaya Rp 750.000 untuk luas di bawah 1000 m²</p>
+                                    <p style="font-size: 0.9rem; color: #28a745; margin-top: 0.5rem;">✓ Menggunakan Total Station standar profesional</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-md-4">
+                    <div class="card service-card h-100 border-100 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="service-icon">🏘️</div>
+                            <h5 class="fw-bold">Stake Out Patok Kavling</h5>
+                            <p class="text-muted big">Jasa pematokan kavling perumahan yang akurat sesuai site plan.
+                                Kami memastikan setiap kavling tertata rapi dan presisi, memudahkan proses pembangunan dan pemasaran properti Anda.</p>
+                                <div style="margin-top: 1rem; padding: 1rem; background: #f0fff5; border-radius: 8px; border-left: 4px solid #28a745;">
+                                     <p style="font-weight: bold; color: #1e3c72; margin-bottom: 0.5rem;">💰 Harga: Rp 150.000/kavling</p>
+                                    <p style="font-size: 0.9rem; color: #666;">*Minimal biaya Rp 1.500.000 untuk jumlah di bawah 10 kavling</p>
+                                    <p style="font-size: 0.9rem; color: #28a745; margin-top: 0.5rem;">✓ Menggunakan Total Station standar profesional</p>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                <div class="col-md-4">
+                    <div class="card service-card h-100 border-100 shadow-sm">
+                        <div class="card-body text-center p-4">
+                           <div class="service-icon">🗺️</div>
+                            <h5 class="fw-bold">Survey Topografi Detail</h5>
+                            <p class="text-muted big">Pemetaan topografi lengkap dengan kontur, elevasi, dan detail kondisi existing lahan. 
+                                Sangat penting untuk perencanaan perumahan, pabrik, infrastruktur, dan memaksimalkan potensi lahan Anda.</p>
+                                <div style="margin-top: 1rem; padding: 1rem; background: #f0fff5; border-radius: 8px; border-left: 4px solid #28a745;">
+                                    <p style="font-weight: bold; color: #1e3c72; margin-bottom: 0.5rem;">💰 Harga: Rp 3.500.000/hektare</p>
+                                    <p style="font-size: 0.9rem; color: #666;">*Minimal biaya Rp 3.500.000 untuk luas di bawah 1 hektare</p>
+                                    <p style="font-size: 0.9rem; color: #28a745; margin-top: 0.5rem;">✓ Menggunakan Total Station standar profesional</p>
+                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="card service-card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center p-4">
-                            <i class="bi bi-sign-stop fs-1 text-success mb-3"></i>
-                            <h5 class="fw-bold">Pemetaan Batas</h5>
-                            <p class="text-muted small">Menentukan batas kepemilikan lahan.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card service-card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center p-4">
-                            <i class="bi bi-map fs-1 text-success mb-3"></i>
-                            <h5 class="fw-bold">Topografi</h5>
-                            <p class="text-muted small">Peta kontur dan situasi tanah.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card service-card h-100 border-0 shadow-sm">
-                        <div class="card-body text-center p-4">
-                            <i class="bi bi-file-earmark-check fs-1 text-success mb-3"></i>
-                            <h5 class="fw-bold">Legalitas</h5>
-                            <p class="text-muted small">Bantuan sertifikat & BPN.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+          </div>
     </section>
 
     <!-- Gallery (Diisi Oleh JS) -->
