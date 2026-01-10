@@ -1,5 +1,6 @@
 import getPool from './db.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
+
 
 const pool = getPool();
 
