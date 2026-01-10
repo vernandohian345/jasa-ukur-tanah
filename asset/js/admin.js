@@ -60,8 +60,9 @@ async function loadTable() {
         });
     } catch (error) {
         console.error(error);
-        alert('Gagal memuat data. Pastikan Backend (vercel dev) sudah jalan.');
+        alert('Gagal memuat data. Periksa koneksi atau jalankan backend saat development.');
     }
+
 }
 
 // --- 4. SIMPAN / UPDATE DATA (Kirim ke Database) ---
