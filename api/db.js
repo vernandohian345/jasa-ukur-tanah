@@ -7,7 +7,8 @@ export default function getPool() {
     pool = mysql.createPool({
       uri: process.env.DATABASE_URL,
       waitForConnections: true,
-      connectionLimit: 5
+      connectionLimit: 5,
+      enableKeepAlive: true
     });
   }
   return pool;
