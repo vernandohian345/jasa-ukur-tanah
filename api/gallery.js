@@ -1,10 +1,10 @@
-const pool = require('./db');
+import { query as _query } from './db';
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   try {
     // GET
     if (req.method === 'GET') {
-      const [rows] = await pool.query(
+      const [rows] = await _query(
         'SELECT * FROM gallery ORDER BY created_at DESC'
       );
       return res.status(200).json(rows);
@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: 'Judul & gambar wajib diisi' });
       }
 
-      await pool.query(
+      await _query(
         'INSERT INTO gallery (judul, deskripsi, gambar) VALUES (?, ?, ?)',
         [judul, deskripsi, gambar]
       );
@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
         ? [judul, deskripsi, gambar, id]
         : [judul, deskripsi, id];
 
-      await pool.query(query, params);
+      await _query(query, params);
       return res.status(200).json({ message: 'Gallery diupdate' });
     }
 
@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
       const { id } = req.query;
       if (!id) return res.status(400).json({ error: 'ID wajib ada' });
 
-      await pool.query('DELETE FROM gallery WHERE id = ?', [id]);
+      await _query('DELETE FROM gallery WHERE id = ?', [id]);
       return res.status(200).json({ message: 'Gallery dihapus' });
     }
 
