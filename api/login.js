@@ -38,3 +38,14 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Internal server error' });
   }
 }
+
+console.log('DB HOST:', process.env.DB_HOST);
+console.log('DB NAME:', process.env.DB_NAME);
+console.log('USERNAME INPUT:', username);
+console.log('PASSWORD INPUT:', password);
+console.log('HASH DB:', admin.password);
+console.log(
+  'COMPARE RESULT:',
+  await bcrypt.compare(password, admin.password)
+);
+
