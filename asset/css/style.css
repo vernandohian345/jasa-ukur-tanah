@@ -17,82 +17,66 @@ body {
 
 /* Navbar */
 .navbar {
-    display: flex;
-    background-color: rgba(247, 247, 247, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 1rem 2rem;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    position: relative;
+    background: rgba(247, 247, 247, 0.95);
+    backdrop-filter: blur(12px);
+    padding: 1rem 2.5rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
     z-index: 100;
-}   
+}
+
 .nav-links {
     display: flex;
+    justify-content: center;
+    gap: 2.5rem;
     list-style: none;
-    gap: 2rem;
-    align-items: center;
     margin: 0;
-    padding: 0;
-}
-
+    padding: 0;}
 .nav-links a {
-    text-decoration: aliceblue;
-    color: #605d5d;
-    font-family:  'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu' sans-serif;
-    font-size: 1.5rem;
+    position: relative;
+    text-decoration: none;
+    color: #5f5f5f;
+    font-size: 1.2rem;
     font-weight: 600;
-    transition: color 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-}
-.nav-links a:hover {
-    color: #3fb888;
-       transform: translateY(-2px); /* naik sedikit */
-}
-
-/* Garis animasi di bawah */
+    transition: color 0.3s ease;}
 .nav-links a::after {
     content: "";
     position: absolute;
-    left: 0;
+    left: 50%;
     bottom: -6px;
-    width: 0%;
-    height: 2px;
-    background-color: #28a745;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3fb888, #2ecc71);
+    border-radius: 5px;
+    transform: translateX(-50%);
     transition: width 0.3s ease;
 }
-
+.nav-links a:hover {
+    color: #3fb888;
+}
 .nav-links a:hover::after {
     width: 100%;
 }
 .logo {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 1.3rem;
+    gap: 0.6rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: #1a1a1a;
+    cursor: pointer;
 }
-        .logo-icon {
-            width: 30px;
-            height: 30px;
-            background: #1a1a1a;
-            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-            position: relative;
-        }
 
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 12px;
-            height: 2px;
-            background: white;
-        }
+.logo-icon {
+    width: 34px;
+    height: 34px;
+    background: linear-gradient(135deg, #3fb888, #2ecc71);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
 
         .nav-right {
             display: flex;
@@ -100,33 +84,26 @@ body {
             gap: 1.5rem;
         }
 
-        .demo-btn {
-            background: #3fb888;
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border: none;
-            cursor: pointer;
-        }
-
-        .demo-btn:hover {
-            background: #35a073;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(63, 184, 136, 0.3);
-        }
+.demo-btn {
+    background: linear-gradient(135deg, #3fb888, #2ecc71);
+    color: white;
+    padding: 0.7rem 1.6rem;
+    border-radius: 999px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.demo-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(63, 184, 136, 0.35);
+}
 
         .arrow {
             font-size: 1rem;
         }
 
-        /* Mobile menu button */
+
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -136,21 +113,11 @@ body {
             color: #333;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links,
-            .sign-in {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .navbar {
-                padding: 1rem;
-            }
-        }
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+}
 
 
 /* Hero */
@@ -211,7 +178,6 @@ body {
 }
 .service-card:hover {
     transform: scale(1.05);
-    border-bottom: 3px solid var(--primary);
     box-shadow: 0 15px 40px rgba(48, 198, 108, 0.961);
     color:  #28a745;
 }
@@ -246,7 +212,90 @@ body {
     object-fit: cover;
     transition: transform 0.4s;
 }
-.gallery-card:hover .gallery-img { transform: scale(1.1); }
+
+/* Contact Section */
+.full-card {
+    background: #f4fff6;
+    max-width: 1600px;
+    margin: auto;
+    border-radius: 30px;
+    padding: 36px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.08);
+}
+.wa-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 75px;
+    gap: 10px;
+    background: rgba(6, 6, 6, 0.6);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: large;
+    margin-bottom: 18px;
+    transition: all 0.3s ease;
+}
+.wa-button:hover {
+    background: #25d366;
+    color: #000;
+    transform: translateY(-2px);
+}
+.email-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+    height: 75px;
+    gap: 10px;
+    padding: 14px 22px;
+    border-radius: 999px;
+    color: white;
+    font-weight: 700;
+    font-size: large;
+    margin-bottom: 18px;
+    background: rgba(6, 6, 6, 0.6);
+    transition: all 0.3s ease;
+}
+.email-box a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: large;
+}
+.email-box:hover {
+    background: #3092dd;
+    color: #000;
+    transform: translateX(-2px);
+}
+.email-box a:hover {
+    color: #000000;
+}
+.divider {
+    margin: 30px 0;
+    border-top: 1px dashed #ccc;
+}
+.address-text {
+    color: #555;
+    margin-bottom: 16px;
+    font-size: px;
+}
+.map-wrapper {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    transition: all 0.4s ease;
+}
+.map-wrapper iframe {
+    width: 100%;
+    height: 500px;
+    border: 0;
+}
+.map-wrapper:hover {
+    transform: scale(1.02);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+}
 
 /* Admin Table */
 .table th { font-weight: 600; color: #555; }
