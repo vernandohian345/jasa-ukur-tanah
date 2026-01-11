@@ -1,42 +1,42 @@
-import getPool from './db.js';
-import bcrypt from 'bcryptjs';
+// import getPool from './db.js';
+// import bcrypt from 'bcryptjs';
 
-const pool = getPool();
+// const pool = getPool();
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+// export default async function handler(req, res) {
+//   if (req.method !== 'POST') {
+//     return res.status(405).json({ error: 'Method not allowed' });
+//   }
 
-  const { username, password } = req.body;
+//   const { username, password } = req.body;
 
-  try {
-    const [rows] = await pool.query(
-      'SELECT * FROM admin WHERE username = ?',
-      [username]
-    );
+//   try {
+//     const [rows] = await pool.query(
+//       'SELECT * FROM admin WHERE username = ?',
+//       [username]
+//     );
 
-    if (rows.length === 0) {
-      return res.status(401).json({ error: 'Username atau password salah' });
-    }
+//     if (rows.length === 0) {
+//       return res.status(401).json({ error: 'Username atau password salah' });
+//     }
 
-    const admin = rows[0];
+//     const admin = rows[0];
 
-    const isMatch = await bcrypt.compare(
-      password.trim(),
-      admin.password.toString() // 🔥 FIX UTAMA
-    );
+//     const isMatch = await bcrypt.compare(
+//       password.trim(),
+//       admin.password.toString() // 🔥 FIX UTAMA
+//     );
 
-    if (!isMatch) {
-      return res.status(401).json({ error: 'Username atau password salah' });
-    }
+//     if (!isMatch) {
+//       return res.status(401).json({ error: 'Username atau password salah' });
+//     }
 
-    return res.status(200).json({
-      message: 'Login success'
-    });
+//     return res.status(200).json({
+//       message: 'Login success'
+//     });
 
-  } catch (error) {
-    console.error('LOGIN ERROR:', error);
-    return res.status(500).json({ error: 'Internal server error' });
-  }
-}
+//   } catch (error) {
+//     console.error('LOGIN ERROR:', error);
+//     return res.status(500).json({ error: 'Internal server error' });
+//   }
+// }
