@@ -8,10 +8,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { username, password } = req.body; // ✅ HARUS DI SINI
-
-  console.log('USERNAME INPUT:', username);
-  console.log('PASSWORD INPUT:', password);
+  const { username, password } = req.body;
 
   try {
     const [rows] = await pool.query(
@@ -25,17 +22,18 @@ export default async function handler(req, res) {
 
     const admin = rows[0];
 
-    console.log('HASH DB:', admin.password);
-
-    const isMatch = await bcrypt.compare(password.trim(), admin.password);
-
-    console.log('COMPARE RESULT:', isMatch);
+    const isMatch = await bcrypt.compare(
+      password.trim(),
+      admin.password.toString() // 🔥 FIX UTAMA
+    );
 
     if (!isMatch) {
       return res.status(401).json({ error: 'Username atau password salah' });
     }
 
-    return res.status(200).json({ message: 'Login success' });
+    return res.status(200).json({
+      message: 'Login success'
+    });
 
   } catch (error) {
     console.error('LOGIN ERROR:', error);

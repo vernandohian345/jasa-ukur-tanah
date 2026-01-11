@@ -28,6 +28,7 @@ async function handleLogin(event) {
         } else {
             const data = await res.json();
             alert(data.error || 'Login gagal');
+            console.log('LOGIN ERROR:', data);
         }
     } catch (err) {
         alert('Gagal terhubung ke server');
