@@ -8,26 +8,36 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { username, password } = req.body; // ✅ HARUS DI SINI
+  console.log('RAW BODY:', req.body);
 
-  console.log('USERNAME INPUT:', username);
-  console.log('PASSWORD INPUT:', password);
+  const { username, password } = req.body || {};
+
+  console.log('USERNAME:', username);
+  console.log('PASSWORD:', password);
 
   try {
     const [rows] = await pool.query(
-      'SELECT * FROM admin WHERE username = ?',
-      [username]
+      'SELECT * FROM admin'
     );
 
+    console.log('ALL ADMIN:', rows);
+
     if (rows.length === 0) {
+      return res.status(500).json({ error: 'Tabel admin kosong' });
+    }
+
+    const admin = rows.find(a => a.username === username);
+
+    console.log('ADMIN FOUND:', admin);
+
+    if (!admin) {
       return res.status(401).json({ error: 'Username atau password salah' });
     }
 
-    const admin = rows[0];
-
-    console.log('HASH DB:', admin.password);
-
-    const isMatch = await bcrypt.compare(password.trim(), admin.password);
+    const isMatch = await bcrypt.compare(
+      String(password).trim(),
+      admin.password
+    );
 
     console.log('COMPARE RESULT:', isMatch);
 
@@ -37,8 +47,8 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ message: 'Login success' });
 
-  } catch (error) {
-    console.error('LOGIN ERROR:', error);
+  } catch (err) {
+    console.error('LOGIN ERROR:', err);
     return res.status(500).json({ error: 'Internal server error' });
   }
 }
