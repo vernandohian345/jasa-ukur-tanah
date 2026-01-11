@@ -31,7 +31,7 @@ body {
 
 .nav-links {
     display: flex;
-    justify-content: center;
+    justify-content: right;
     gap: 2.5rem;
     list-style: none;
     margin: 0;
@@ -122,7 +122,7 @@ body {
 
 /* Hero */
 .hero-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('/img/Gambar Dashboard 1 (2).jpeg') no-repeat center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url('/img/Gambar Dashboard 1 .jpeg') no-repeat center center;
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -201,76 +201,37 @@ body {
 /* Gallery Public */
 .gallery-card {
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 12px;
     position: relative;
     cursor: pointer;
+    background: #fff;
+    transition: all 0.3s ease;
+    height: 100%;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
-.gallery-img {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    transition: transform 0.4s;
+
+.gallery-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .card-img-wrapper {
     height: 220px;
-    overflow: hidden; /* Penting agar gambar tidak keluar dari kartu saat di-zoom */
+    overflow: hidden;
     position: relative;
 }
 
 .card-img-top {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Agar gambar tetap proporsional mengisi kotak */
-    transition: transform 0.5s ease; /* Animasi halus saat gambar di-hover */
+    object-fit: cover;
+    transition: transform 0.5s ease;
 }
 
-/* Efek Hover pada Gambar */
-.card:hover .card-img-top {
-    transform: scale(1.1); /* Zoom in gambar */
+.gallery-card:hover .card-img-top {
+    transform: scale(1.1);
 }
 
-/* Styling Kartu */
-.gallery-card {
-    border: none;
-    border-radius: 12px;
-    background: #fff;
-    transition: all 0.3s ease;
-    height: 100%; /* Agar tinggi kartu sama dalam satu baris */
-}
-
-/* Efek Hover pada Kartu (angkat sedikit ke atas dan bayangan) */
-.gallery-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Styling Judul dan Deskripsi */
-.card-title {
-    font-weight: 700;
-    color: #333;
-}
-
-.card-text {
-    color: #666;
-    font-size: 0.95rem;
-    line-height: 1.6;
-}
-
-/* Styling Tombol / Link */
-.btn-custom {
-    color: #198754; /* Bootstrap success color */
-    font-weight: 600;
-    text-decoration: none;
-    padding-left: 0;
-    transition: color 0.3s;
-}
-
-.btn-custom:hover {
-    color: #0f5132;
-}
-        
 .icon-box {
     position: absolute;
     top: 10px;
@@ -283,6 +244,49 @@ body {
     color: #198754;
     z-index: 2;
 }
+
+/* MODAL */
+.gallery-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.gallery-modal.active {
+    display: flex;
+}
+
+.gallery-content {
+    max-width: 90%;
+    max-height: 90%;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    overflow-y: auto;
+}
+
+.gallery-content img {
+    width: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+}
+
 
 /* Contact Section */
 .full-card {
