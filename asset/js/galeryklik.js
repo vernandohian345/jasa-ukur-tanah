@@ -38,3 +38,5 @@ function closeGallery() {
       zoomModal.classList.remove("active");
     }
   };
+
+  

@@ -50,6 +50,7 @@ body {
 }
 
 
+
 /* ============= NAVBAR ============== */
 .navbar {
     position: fixed;
@@ -95,7 +96,17 @@ body {
 }
 .nav-links a:hover::after {
     width: 100%;
+    
 }
+
+.nav-links a.active {
+    color: #d4af37;
+}
+
+.nav-links a.active::after {
+    width: 100%;
+}
+
 .logo {
     display: flex;;
     align-items: center;
@@ -166,6 +177,7 @@ body {
         display: none;
     }
 }
+
 
 
 /* ================ HERO SECTION ============= */
@@ -273,17 +285,20 @@ body {
     }
 }
 
+
+
 /* ============ WHY US SECTION ============ */
 
 .why-us-section {
-  padding: 80px 0;
-  background-color: #f9f9f9;
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f5f3e8 0%, #f5f4e8 50%, #e8e7d4 100%);
+ 
 }
 
 .why-us-section .container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 .section-header {
@@ -343,6 +358,7 @@ body {
   color: #555;
   line-height: 1.6;
 }
+
 
 
 /* ========== SERVICE CARDS =========== */
@@ -460,10 +476,15 @@ body {
     margin-bottom: 50px;
 }
 
-.gallery-header h2 {
+.gallery-header h1 {
   font-size: 2.2rem;
   font-weight: 700;
   color: #1a1a1a;
+}
+
+.gallery-header p {
+    color: #666;
+    margin-top: 10px;
 }
 
 #public-gallery-container {
@@ -636,7 +657,6 @@ body {
     opacity: 1;
   }
 }
-
 
 
 
